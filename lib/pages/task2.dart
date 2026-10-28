@@ -35,15 +35,60 @@ final List<Map<String, dynamic>> dummyOrders = [
   },
 ];
 
-class Task2 extends StatelessWidget {
+class Task2 extends StatefulWidget {
   const Task2({super.key});
 
+  @override
+  State<Task2> createState() => _Task2State();
+}
+
+class _Task2State extends State<Task2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text('Food Order List')),
-      body: Center(child: Text('Total orders: ${dummyOrders.length}')),
+      appBar: AppBar(
+        title: const Text('Food Order List'),
+        backgroundColor: Colors.white,
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: dummyOrders.length,
+        itemBuilder: (context, index) {
+          final order = dummyOrders[index];
+
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      order['imageUrl'],
+                      width: double.infinity,
+                      height: 160,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          height: 160,
+                          color: Colors.grey[200],
+                          child: const Center(
+                            child: Icon(Icons.fastfood, size: 50),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
