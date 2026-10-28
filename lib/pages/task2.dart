@@ -58,29 +58,110 @@ class _Task2State extends State<Task2> {
           final order = dummyOrders[index];
 
           return Card(
-            margin: const EdgeInsets.only(bottom: 16),
+            margin: const EdgeInsets.only(bottom: 25),
             elevation: 2,
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Column(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       order['imageUrl'],
-                      width: double.infinity,
-                      height: 160,
+                      width: 150,
+                      height: 180,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
-                          height: 160,
+                          width: 100,
+                          height: 130,
                           color: Colors.grey[200],
-                          child: const Center(
-                            child: Icon(Icons.fastfood, size: 50),
-                          ),
+                          child: const Icon(Icons.fastfood, size: 40),
                         );
                       },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          order['category'],
+                          style: const TextStyle(
+                            color: Colors.deepOrange,
+                            fontSize: 13,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          order['title'],
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'ID: ${order['id']}',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 13,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Text(
+                              '\$${order['price']}',
+                              style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 50),
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  order['status'] = 'done';
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.deepOrangeAccent,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 20,
+                                ),
+                              ),
+                              child: const Text('Done'),
+                            ),
+                            const SizedBox(width: 4),
+                            OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  order['status'] = 'cancelled';
+                                });
+                              },
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.red,
+                                side: const BorderSide(color: Colors.red),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 20,
+                                ),
+                              ),
+                              child: const Text('Cancel'),
+                            ),
+                          ],
+                        ),
+                        if (order['status'] != 'pending')
+                          Text(
+                            'Status: ${order['status']}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                      ],
                     ),
                   ),
                 ],
